@@ -11,6 +11,7 @@ import Sider from './common/sider'
 import Home from './pages/home'
 import Detail from './pages/detail'
 import Login from './pages/login'
+import TagList from './pages/tagList'
 import Write from './pages/write'
 import AboutMe from './pages/aboutme'
 
@@ -27,7 +28,8 @@ class App extends Component {
                   <div>
                     <Route path='/' exact component={Home}></Route>
                     <Route path='/login' exact component={Login}></Route>
-                    <Route path='/detail' exact component={Detail}></Route>
+                    <Route path='/taglist/:tag' exact component={TagList}></Route>
+                    <Route path='/detail/:id' exact component={Detail}></Route>
                     <Route path='/write' exact component={Write}></Route>
                     <Route path='/aboutme' exact component={AboutMe}></Route>
                   </div>

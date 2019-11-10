@@ -1,17 +1,8 @@
 import React, { PureComponent } from 'react'
+import { Link } from 'react-router-dom'
 import { Icon, List } from 'antd'
+import { connect } from 'react-redux'
 import { ListWrapper } from '../style'
-
-const listData = [];
-for (let i = 0; i < 23; i++) {
-  listData.push({
-    href: 'http://ant.design',
-    title: `ant design part ${i}`,
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    content:
-      'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-  });
-}
 
 const IconText = ({ type, text }) => (
   <span>
@@ -23,35 +14,37 @@ const IconText = ({ type, text }) => (
 class ArticleList extends PureComponent {
 
 	render() {
+    const { artList } = this.props
 		return (
 			<ListWrapper>
+			{console.log('articlelist')}
 				<List
 					itemLayout="vertical"
 					size="large"
-					pagination={{
-						onChange: page => {
-							console.log(page);
-						},
-						pageSize: 5,
-					}}
-					dataSource={listData}
+					// pagination={{
+					// 	onChange: page => {
+					// 		console.log(page);
+					// 	},
+					// 	pageSize: 5,
+					// }}
+					dataSource={artList}
 					renderItem={item => (
 						<List.Item
 							key={item.title}
 							actions={[
-								<IconText type="calendar" text="2019-11-12" key="list-vertical-calendar" />,
-								<IconText type="tags" text="react" key="list-vertical-tags" />
+								<IconText type="calendar" text={item.date} key="list-vertical-calendar" />,
+								<IconText type="tags" text={item.tags.join('、')} key="list-vertical-tags" />
 							]}
 							extra={
 								<img
 									width={272}
 									alt="logo"
-									src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+									src={item.img}
 								/>
 							}
 						>
 							<List.Item.Meta
-								title={<a href={item.href} style={{ fontSize: 30 }}>{item.title}</a>}
+								title={<Link to={'/detail/' + item.id} style={{ fontSize: 30 }}>{item.title}</Link>}
 							/>
 							{item.content}
 						</List.Item>
@@ -62,4 +55,10 @@ class ArticleList extends PureComponent {
 	}
 }
 
-export default ArticleList
+const mapStateToProps = (state) => {
+  return {
+    artList: state.getIn(['home', 'artList']).toJS()
+  }
+}
+
+export default connect(mapStateToProps, null)(ArticleList)

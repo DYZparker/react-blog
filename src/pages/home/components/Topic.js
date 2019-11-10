@@ -1,30 +1,29 @@
 import React, { PureComponent } from 'react'
 import { Carousel  } from 'antd'
 import { TopicWrapper } from '../style'
-import img1 from '../../../statics/image/1.png'
-import img2 from '../../../statics/image/2.png'
-import img3 from '../../../statics/image/3.jpg'
-
+import { connect } from 'react-redux'
 
 class Topic extends PureComponent {
 
 	render() {
+		const { topicList } = this.props
 		return (
 			<TopicWrapper>
+			{console.log('topic')}
 				<Carousel effect="fade" autoplay>
-						<div>
-								<img src={img1} alt="" />
-						</div>
-						<div>
-								<img src={img2} alt="" />
-						</div>
-						<div>
-								<img src={img3} alt="" />
-						</div>
+					{topicList.map((item) => {
+						return(<img src={item.src} alt={item.alt} key={item.alt} />)
+					})}
 				</Carousel>
 			</TopicWrapper>
 		)
 	}
 }
 
-export default Topic
+const mapStateToProps = (state) => {
+  return {
+    topicList: state.getIn(['home', 'topicList']).toJS()
+  }
+}
+
+export default connect(mapStateToProps, null)(Topic)

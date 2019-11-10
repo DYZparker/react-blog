@@ -1,0 +1,1 @@
+export const CHANGE_CURRENT = 'header/CHANGE_CURRENT'

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Form, Input, Button, Checkbox } from 'antd'
 import { WriteWrapper, ArticleArea } from './style'
 import BraftEditor from 'braft-editor'
@@ -10,7 +10,7 @@ function onChange(checkedValues) {
 
 const TagOptions = ['html', 'css', 'flex', 'javascript', 'node', 'vue', 'react', 'express', 'koa2', 'egg', 'next.js', 'git', 'mongodb', 'mysql', 'nginx', '杂记', '踩坑', '其他',]
 
-class Write extends Component {
+class Write extends PureComponent {
   state = {
     editorState: null
 }
@@ -38,6 +38,7 @@ handleEditorChange = (editorState) => {
 handleSubmit = e => {
   e.preventDefault();
   this.props.form.validateFields((err, values) => {
+    values.content = this.state.editorState.toHTML()
     if (!err) {
       console.log('Received values of form: ', values);
     }
@@ -51,7 +52,7 @@ render () {
 
   return (
     <WriteWrapper>
-    <Form onSubmit={this.handleSubmit} className="login-form">
+    <Form onSubmit={this.handleSubmit}>
         <Form.Item>
           {getFieldDecorator('title', {
             rules: [{ required: true, message: 'Please input your title' }],
@@ -62,9 +63,9 @@ render () {
           )}
         </Form.Item>
         <Form.Item>
-          {getFieldDecorator('article', {
+          {/* {getFieldDecorator('article', {
             rules: [{ required: true, message: 'Please input your article' }],
-          })(
+          })( */}
             <ArticleArea>
               <BraftEditor
                 value={editorState}
@@ -72,7 +73,7 @@ render () {
                 onSave={this.submitContent}
               />
             </ArticleArea>,
-          )}
+          {/* )} */}
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('tags', {
@@ -82,7 +83,7 @@ render () {
             <Checkbox.Group options={TagOptions} defaultValue={['html']} onChange={onChange} />
           )}
         </Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
+        <Button type="primary" htmlType="submit">
           提交
         </Button>
       </Form>

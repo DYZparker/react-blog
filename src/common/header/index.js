@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 import { Row, Col, Menu, Icon } from 'antd'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { actionCreators } from './store';
 import { 
 	HeaderWrapper,
 	HeaderTitle
@@ -9,21 +11,12 @@ import {
 const { SubMenu } = Menu
 
 class Header extends PureComponent {
-
-	state = {
-    current: 'mail',
-  };
-
-  handleClick = e => {
-    console.log('click ', e);
-    this.setState({
-      current: e.key,
-    });
-  }
-
 	render() {
+		const { current, headTags, handleClick } = this.props
+		console.log('---'+current)
 		return (
 			<HeaderWrapper>
+			{console.log('header')}
 				<Row type="flex" justify="center">
 					<Col xs={24} sm={24} md={10} lg={15} xl={10}>
 						<Link to='/'>
@@ -31,7 +24,7 @@ class Header extends PureComponent {
 						</Link>
 					</Col>
 					<Col xs={0} sm={0} md={14} lg={8} xl={8}>
-						<Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" >
+						<Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" >
 							<Menu.Item key="home">
 								<Link to='/'>
 									<Icon type="home" />
@@ -40,18 +33,17 @@ class Header extends PureComponent {
 							</Menu.Item>
 							<SubMenu
 								title={
-									<span className="submenu-title-wrapper">
-										<Icon type="book" />
+									<span>
+										<Icon type="detail" />
 										学习笔记
 									</span>
 								}
 							>
-							<Menu.Item key="html">Html</Menu.Item>
-							<Menu.Item key="javascript">JavaScript</Menu.Item>
-							<Menu.Item key="node">Node</Menu.Item>
-							<Menu.Item key="vue">Vue</Menu.Item>
-							<Menu.Item key="react">React</Menu.Item>
-							<Menu.Item key="other">Other</Menu.Item>
+								{headTags.map((item) => {
+									return(
+										<Menu.Item key={item}><Link to={'/taglist/' + item}>{item}</Link></Menu.Item>
+									)
+								})}
 							</SubMenu>
 							<Menu.Item key="write">
 								<Link to='/write'>
@@ -71,6 +63,38 @@ class Header extends PureComponent {
 			</HeaderWrapper>
 		)
 	}
+
+	componentDidMount() {
+		const { handleClick } = this.props
+		console.log(this.props.location.pathname)
+		console.log(this.props)
+		const pathname = this.props.location.pathname
+    switch(pathname) {
+			case pathname.startsWith('/detail'):
+					return handleClick('detail');
+			case pathname.startsWith('/write'):
+					return handleClick('write');
+			case pathname.startsWith('/aboutme'):
+					return handleClick('aboutme')
+			default:
+					return handleClick('home')
+    }
+	}
 }
 
-export default Header
+const mapStateToProps = (state) => {
+  return {
+		current: state.getIn(['header', 'current']),
+    headTags: state.getIn(['header', 'headTags']).toJS()
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+			handleClick (e) {
+				dispatch(actionCreators.changeCurrent(e.key))
+			}
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header))

@@ -8,6 +8,7 @@ class sider extends PureComponent {
 	render() {
 		return (
 			<SiderWrapper>
+			{console.log('sider')}
 				<Author />
 				<Tags />
 			</SiderWrapper>
