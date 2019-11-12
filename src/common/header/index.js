@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react'
 import { Row, Col, Menu, Icon } from 'antd'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { actionCreators } from './store';
+import { actionCreators } from './store'
+import { actionCreators as tagArtListActionCreators } from '../../pages/tagList/store'
 import { 
 	HeaderWrapper,
 	HeaderTitle
@@ -11,9 +12,48 @@ import {
 const { SubMenu } = Menu
 
 class Header extends PureComponent {
+
+	getMenuNodes = (MenuList) => {
+    return MenuList.map(item => {
+      if (!item.children) {
+        return (
+          <Menu.Item key={item.path}>
+              <Icon type={item.icon} />
+              <span>{item.title}</span>
+          </Menu.Item>
+        )
+      } else {
+        return (
+          <SubMenu
+            key={item.path}
+            title={
+              <span>
+                <Icon type={item.icon} />
+                <span>{item.title}</span>
+              </span>
+            }
+					>
+						{this.getMenuNodes(item.children)}
+					</SubMenu>
+        )
+      }
+    })
+	}
+
+	clickMenu = (e) => {
+    const { history, clickTag } = this.props
+		if(e.keyPath.length === 1) {
+			history.push(e.key)
+		}else {
+			const tag = e.key.split('/').pop()
+			history.push(e.key)
+			clickTag(tag)
+		}
+	}
+	
 	render() {
-		const { current, headTags, handleClick } = this.props
-		console.log('---'+current)
+		const { menuList } = this.props
+		const pathname = this.props.location.pathname
 		return (
 			<HeaderWrapper>
 			{console.log('header')}
@@ -24,39 +64,8 @@ class Header extends PureComponent {
 						</Link>
 					</Col>
 					<Col xs={0} sm={0} md={14} lg={8} xl={8}>
-						<Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" >
-							<Menu.Item key="home">
-								<Link to='/'>
-									<Icon type="home" />
-									网站首页
-								</Link>
-							</Menu.Item>
-							<SubMenu
-								title={
-									<span>
-										<Icon type="detail" />
-										学习笔记
-									</span>
-								}
-							>
-								{headTags.map((item) => {
-									return(
-										<Menu.Item key={item}><Link to={'/taglist/' + item}>{item}</Link></Menu.Item>
-									)
-								})}
-							</SubMenu>
-							<Menu.Item key="write">
-								<Link to='/write'>
-									<Icon type="edit" />
-									写文章
-								</Link>
-							</Menu.Item>
-							<Menu.Item key="aboutme">
-								<Link to='/aboutme'>
-									<Icon type="idcard" />
-									关于我
-								</Link>
-							</Menu.Item>
+						<Menu selectedKeys={[pathname]} mode="horizontal" onClick={this.clickMenu} >
+						{this.getMenuNodes(menuList)}
 						</Menu>
 					</Col>
 				</Row>
@@ -65,36 +74,24 @@ class Header extends PureComponent {
 	}
 
 	componentDidMount() {
-		const { handleClick } = this.props
-		console.log(this.props.location.pathname)
-		console.log(this.props)
-		const pathname = this.props.location.pathname
-    switch(pathname) {
-			case pathname.startsWith('/detail'):
-					return handleClick('detail');
-			case pathname.startsWith('/write'):
-					return handleClick('write');
-			case pathname.startsWith('/aboutme'):
-					return handleClick('aboutme')
-			default:
-					return handleClick('home')
-    }
+    const { getHeaderInfo } = this.props
+    getHeaderInfo()
 	}
 }
 
 const mapStateToProps = (state) => {
   return {
-		current: state.getIn(['header', 'current']),
-    headTags: state.getIn(['header', 'headTags']).toJS()
+    menuList: state.getIn(['header', 'menuList']).toJS()
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-			handleClick (e) {
-				dispatch(actionCreators.changeCurrent(e.key))
-			}
-    }
-}
+const mapDispatchToProps = (dispatch) => ({
+	getHeaderInfo() {
+		dispatch(actionCreators.getHeaderData())
+	},
+	clickTag(tag) {
+		dispatch(tagArtListActionCreators.getTagArtListData(tag))
+	}
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header))

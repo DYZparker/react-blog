@@ -1,1 +1,1 @@
-export const CHANGE_CURRENT = 'header/CHANGE_CURRENT'
+export const CHANGE_HEADER_DATA = 'header/CHANGE_HEADER_DATA'

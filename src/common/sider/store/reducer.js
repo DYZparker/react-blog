@@ -27,43 +27,35 @@ const defaultState = fromJS({
   tagList: [
       {
         title: 'html',
-        color: '#0066FF',
-        href: ''
+        color: '#0066FF'
       },
       {
         title: 'css',
-        color: '#FF88C2',
-        href: ''
+        color: '#FF88C2'
       },
       {
         title: 'flex',
-        color: '#C10066 ',
-        href: ''
+        color: '#C10066 '
       },
       {
         title: 'javascript',
-        color: '#EE7700 ',
-        href: ''
+        color: '#EE7700 '
       },
       {
         title: 'node',
-        color: '#00AA00',
-        href: ''
+        color: '#00AA00'
       },
       {
         title: 'vue',
-        color: '#00AA88',
-        href: ''
+        color: '#00AA88'
       },
       {
         title: 'react',
-        color: '#444444',
-        href: ''
+        color: '#444444'
       },
       {
         title: 'express',
-        color: '#B94FFF',
-        href: ''
+        color: '#B94FFF'
       },
       {
         title: 'koa2',
@@ -72,48 +64,39 @@ const defaultState = fromJS({
       },
       {
         title: 'egg',
-        color: '#FF7744',
-        href: ''
+        color: '#FF7744'
       },
       {
         title: 'next.js',
-        color: '#666666',
-        href: ''
+        color: '#666666'
       },
       {
         title: 'git',
-        color: '#5555FF',
-        href: ''
+        color: '#5555FF'
       },
       {
         title: 'mongodb',
-        color: '#FFAA33',
-        href: ''
+        color: '#FFAA33'
       },
       {
         title: 'mysql',
-        color: '#227700',
-        href: ''
+        color: '#227700'
       },
       {
         title: 'nginx',
-        color: '#9900FF ',
-        href: ''
+        color: '#9900FF '
       },
       {
         title: '杂记',
-        color: '#227700 ',
-        href: ''
+        color: '#227700 '
       },
       {
         title: '踩坑',
-        color: '#A20055  ',
-        href: ''
+        color: '#A20055  '
       },
       {
         title: '其他',
-        color: '#0000AA  ',
-        href: ''
+        color: '#0000AA  '
       },
     ]
 });

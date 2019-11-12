@@ -4,10 +4,11 @@ import { Tag, Icon, Divider } from 'antd'
 import { TagsWrapper } from '../style'
 import { connect } from 'react-redux'
 // import { actionCreators } from './store'
+import { actionCreators as tagArtListActionCreators } from '../../../pages/tagList/store'
 
 class Tags extends PureComponent {
 	render() {
-    const { tagList } = this.props
+    const { tagList, clickTag } = this.props
 		return (
 			<TagsWrapper>
       {console.log('tags')}
@@ -15,7 +16,7 @@ class Tags extends PureComponent {
 				{tagList.map((item) => {
 					return (
 						<Tag style={{ marginBottom: 6 }} color={item.color} key={item.title}>
-								<Link to={'/taglist/' + item.title}>
+								<Link to={'/taglist/' + item.title} onClick={() => clickTag(item.title)}>
 									<Icon type="pushpin" />
 									{item.title}
 								</Link>
@@ -33,4 +34,10 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, null)(Tags)
+const mapDispatchToProps = (dispatch) => ({
+	clickTag(tag) {
+		dispatch(tagArtListActionCreators.getTagArtListData(tag))
+	}
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tags)

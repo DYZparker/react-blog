@@ -1,19 +1,17 @@
-import * as constants from './constants';
-import { fromJS } from 'immutable';
-// import axios from 'axios';
+import * as constants from './constants'
+import { fromJS } from 'immutable'
+import { getTagArtListApi } from '../../../api/common'
 
-// const changeList = (data) => ({
-//     type: constants.CHANGE_LIST,
-//     data: fromJS(data),
-//     totalPage: Math.ceil(data.length /10)
-// })
+const changeTagArtListData = (result) => ({
+	type: constants.CHANGE_TAG_ART_LIST,
+	tagArtList: fromJS(result)
+})
 
-export const changeToggle = (toggle) => ({
-    type: constants.CHANGE_TOGGLE,
-    toggle
-});
-
-export const changeShow = (list) => ({
-    type: constants.CHANGE_SHOW,
-    list: fromJS(list)
-});
+export const getTagArtListData = (tag) => {
+  return (dispatch) => {
+    getTagArtListApi(tag).then((res) => {
+        const result = res.data
+        dispatch(changeTagArtListData(result))
+      })
+  }
+}

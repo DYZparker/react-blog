@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 import { Tabs, Card, List } from 'antd'
 import { connect } from 'react-redux'
+// import { actionCreators } from './store'
 import {
   TabBarWrapper,
   WrapperTabPane,
@@ -59,5 +60,11 @@ const mapStateToProps = (state) => {
     tabList: state.getIn(['home', 'tabList']).toJS()
   }
 }
+
+// const mapDispatchToProps = (dispatch) => ({
+// 	getHomeInfo() {
+// 		dispatch(actionCreators.changeHomeData())
+// 	}
+// })
 
 export default connect(mapStateToProps, null)(TabBar)

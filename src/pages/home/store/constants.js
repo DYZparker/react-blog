@@ -1,2 +1,1 @@
-export const CHANGE_TOGGLE = 'sidebar/CHANGE_TOGGLE';
-export const CHANGE_SHOW = 'sidebar/CHANGE_SHOW';
+export const CHANGE_HOME_DATA = 'home/CHANGE_HOME_DATA'

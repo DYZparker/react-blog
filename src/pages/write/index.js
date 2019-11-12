@@ -1,19 +1,14 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import { Form, Input, Button, Checkbox } from 'antd'
 import { WriteWrapper, ArticleArea } from './style'
 import BraftEditor from 'braft-editor'
 import 'braft-editor/dist/index.css'
 
-function onChange(checkedValues) {
-  console.log('checked = ', checkedValues);
-}
-
-const TagOptions = ['html', 'css', 'flex', 'javascript', 'node', 'vue', 'react', 'express', 'koa2', 'egg', 'next.js', 'git', 'mongodb', 'mysql', 'nginx', '杂记', '踩坑', '其他',]
-
 class Write extends PureComponent {
   state = {
     editorState: null
-}
+  }
 
 // async componentDidMount () {
 //   // 假设此处从服务端获取html格式的编辑器内容
@@ -31,65 +26,90 @@ class Write extends PureComponent {
 //   const result = await saveEditorContent(htmlContent)
 // }
 
-handleEditorChange = (editorState) => {
-  this.setState({ editorState })
-}
+  handleEditorChange = (editorState) => {
+    this.setState({ editorState })
+  }
 
-handleSubmit = e => {
-  e.preventDefault();
-  this.props.form.validateFields((err, values) => {
-    values.content = this.state.editorState.toHTML()
-    if (!err) {
-      console.log('Received values of form: ', values);
-    }
-  });
-}
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      values.content = this.state.editorState.toHTML()
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
+    });
+  }
 
-render () {
+  onChange(checkedValues) {
+    console.log('checked = ', checkedValues);
+  }
 
-  const { editorState } = this.state
-  const { getFieldDecorator } = this.props.form
+  render () {
+    const { tagOptions } = this.props
+    const { editorState } = this.state
+    const { getFieldDecorator } = this.props.form
+    console.log('write')
 
-  return (
-    <WriteWrapper>
-    <Form onSubmit={this.handleSubmit}>
-        <Form.Item>
-          {getFieldDecorator('title', {
-            rules: [{ required: true, message: 'Please input your title' }],
-          })(
-            <Input
-              placeholder="Title"
-            />,
-          )}
-        </Form.Item>
-        <Form.Item>
-          {/* {getFieldDecorator('article', {
-            rules: [{ required: true, message: 'Please input your article' }],
-          })( */}
+    return (
+      <WriteWrapper>
+      <Form onSubmit={this.handleSubmit}>
+          <Form.Item>
+            {getFieldDecorator('title', {
+              rules: [{ required: true, message: 'Please input your title' }],
+            })(
+              <Input
+                placeholder="Title"
+              />,
+            )}
+          </Form.Item>
+          <Form.Item>
             <ArticleArea>
               <BraftEditor
                 value={editorState}
                 onChange={this.handleEditorChange}
                 onSave={this.submitContent}
               />
-            </ArticleArea>,
-          {/* )} */}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('tags', {
-            valuePropName: 'checked',
-            initialValue: true,
-          })(
-            <Checkbox.Group options={TagOptions} defaultValue={['html']} onChange={onChange} />
-          )}
-        </Form.Item>
-        <Button type="primary" htmlType="submit">
-          提交
-        </Button>
-      </Form>
-      </WriteWrapper>
-  )
+            </ArticleArea>
+          </Form.Item>
+          <Form.Item>
+            {getFieldDecorator('tags', {
+              valuePropName: 'checked',
+              initialValue: true,
+            })(
+              <Checkbox.Group options={tagOptions} defaultValue={[]} onChange={this.onChange} />
+            )}
+          </Form.Item>
+          <Button type="primary" htmlType="submit">
+            提交
+          </Button>
+        </Form>
+        </WriteWrapper>
+    )
+  }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    tagOptions: state.getIn(['write', 'tagOptions']).toJS()
+  }
 }
-const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(Write)
-export default WrappedNormalLoginForm
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+      // handleSubmit(e){
+      //   e.preventDefault();
+      //   this.props.form.validateFields((err, values) => {
+      //     values.content = this.state.editorState.toHTML()
+      //     if (!err) {
+      //       console.log('Received values of form: ', values);
+      //     }
+      //   });
+      // },
+      // handleToggle (toggle) {
+      //     dispatch(actionCreators.changeToggle(!toggle))
+      // }
+    }
+}
+
+const WrappedNormalWriteForm = Form.create({ name: 'normal_write' })(Write)
+export default connect(mapStateToProps, mapDispatchToProps)(WrappedNormalWriteForm)
