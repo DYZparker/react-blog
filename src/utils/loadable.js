@@ -1,3 +1,4 @@
+//异步加载组件js
 import React from 'react'
 import Loadable from 'react-loadable'
 

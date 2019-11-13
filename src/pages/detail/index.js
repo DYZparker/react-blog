@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Icon } from 'antd'
 import { DetailWrapper, ArtTitle, ArtIcon } from './style'
+import { actionCreators } from './store'
 
 class Detail extends PureComponent {
 
@@ -24,6 +25,12 @@ class Detail extends PureComponent {
       </DetailWrapper>
     )
   }
+
+	componentDidMount() {
+    const { getDetailInfo } = this.props
+    const id = this.props.match.params.id
+    getDetailInfo(id)
+	}
 }
 
 const mapStateToProps = (state) => {
@@ -32,4 +39,10 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, null)(Detail)
+const mapDispatchToProps = (dispatch) => ({
+	getDetailInfo(id) {
+		dispatch(actionCreators.getDetailData(id))
+	}
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Detail)

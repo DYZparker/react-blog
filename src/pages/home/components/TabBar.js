@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 import { Tabs, Card, List } from 'antd'
 import { connect } from 'react-redux'
-// import { actionCreators } from './store'
+import { actionCreators as detailActionCreators} from '../../detail/store'
 import {
   TabBarWrapper,
   WrapperTabPane,
@@ -16,7 +16,7 @@ function callback(key) {
 
 class TabBar extends PureComponent {
 	render() {
-    const { tabList } = this.props
+    const { tabList, getDetailInfo } = this.props
 		return (
 			<TabBarWrapper>
       {console.log('tabbar')}
@@ -40,7 +40,11 @@ class TabBar extends PureComponent {
 									renderItem={item => (
 									<List.Item>
 										<List.Item.Meta
-										title={<Link to={"/detail/"+item.id} style={{ fontSize: 20 }}>{item.title}</Link>}
+										title={
+											<Link to={"/detail/"+item.id} style={{ fontSize: 20 }} onClick={() => getDetailInfo(item.id)}>
+												{item.title}
+											</Link>
+										}
 										description={item.description}
 										/>
 									</List.Item>
@@ -61,10 +65,10 @@ const mapStateToProps = (state) => {
   }
 }
 
-// const mapDispatchToProps = (dispatch) => ({
-// 	getHomeInfo() {
-// 		dispatch(actionCreators.changeHomeData())
-// 	}
-// })
+const mapDispatchToProps = (dispatch) => ({
+	getDetailInfo(id) {
+		dispatch(detailActionCreators.getDetailData(id))
+	}
+})
 
-export default connect(mapStateToProps, null)(TabBar)
+export default connect(mapStateToProps, mapDispatchToProps)(TabBar)

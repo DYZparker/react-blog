@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { Icon, List } from 'antd'
 import { TagListWrapper } from './style'
 import { actionCreators } from './store'
+import { actionCreators as detailActionCreators} from '../detail/store'
 
 const IconText = ({ type, text }) => (
   <span>
@@ -15,7 +16,7 @@ const IconText = ({ type, text }) => (
 class TagList extends PureComponent {
 
 	render() {
-    const { tagArtList } = this.props
+    const { tagArtList, getDetailInfo } = this.props
 		return (
 			<TagListWrapper>
 			{console.log('articlelist')}
@@ -45,7 +46,11 @@ class TagList extends PureComponent {
 							}
 						>
 							<List.Item.Meta
-								title={<Link to={'/detail/' + item.id} style={{ fontSize: 30 }}>{item.title}</Link>}
+								title={
+									<Link to={'/detail/' + item.id} style={{ fontSize: 30 }} onClick={() => getDetailInfo(item.id)}>
+										{item.title}
+									</Link>
+								}
 							/>
 							{item.content}
 						</List.Item>
@@ -60,18 +65,6 @@ class TagList extends PureComponent {
 		const tag = this.props.match.params.tag
 		getTagArtListInfo(tag)
 	}
-
-	// componentWillReceiveProps(nextProps) {
-	// 	console.log('======================')
-	// 	console.log(nextProps)
-	// 	console.log(this.props)
-	// 	if (nextProps.location.pathname !== this.props.location.pathname) {
-	// 		console.log('不一样')
-	// 		const { getTagArtListInfo } = this.props
-	// 		const tag = this.props.match.params.tag
-	// 		getTagArtListInfo(tag)
-	// 	} 
-	// }
 }
 
 const mapStateToProps = (state) => {
@@ -83,6 +76,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
 	getTagArtListInfo(tag) {
 		dispatch(actionCreators.getTagArtListData(tag))
+	},
+	getDetailInfo(id) {
+		dispatch(detailActionCreators.getDetailData(id))
 	}
 })
 

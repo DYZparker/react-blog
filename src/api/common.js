@@ -1,13 +1,13 @@
 import request from '../utils/request'
 
-export function getHeaderApi(tag) {
+export function getHeaderApi() {
   return request({
     url: '/common/menulist',
     method: 'get'
   })
 }
 
-export function getSiderApi(tag) {
+export function getSiderApi() {
   return request({
     url: '/common/sider',
     method: 'get'

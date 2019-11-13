@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { Tag, Icon, Divider } from 'antd'
 import { TagsWrapper } from '../style'
 import { connect } from 'react-redux'
-// import { actionCreators } from './store'
 import { actionCreators as tagArtListActionCreators } from '../../../pages/tagList/store'
 
 class Tags extends PureComponent {

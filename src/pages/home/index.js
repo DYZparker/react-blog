@@ -20,7 +20,6 @@ class Main extends PureComponent {
   }
 
 	componentDidMount() {
-    console.log('==========================')
     const { getHomeInfo } = this.props
     getHomeInfo()
 	}

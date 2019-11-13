@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Icon, List } from 'antd'
 import { connect } from 'react-redux'
 import { ListWrapper } from '../style'
+import { actionCreators as detailActionCreators} from '../../detail/store'
 
 const IconText = ({ type, text }) => (
   <span>
@@ -14,7 +15,7 @@ const IconText = ({ type, text }) => (
 class ArticleList extends PureComponent {
 
 	render() {
-    const { artList } = this.props
+    const { artList, getDetailInfo } = this.props
 		return (
 			<ListWrapper>
 			{console.log('articlelist')}
@@ -44,7 +45,11 @@ class ArticleList extends PureComponent {
 							}
 						>
 							<List.Item.Meta
-								title={<Link to={'/detail/' + item.id} style={{ fontSize: 30 }}>{item.title}</Link>}
+								title={
+									<Link to={'/detail/' + item.id} style={{ fontSize: 30 }} onClick={() => getDetailInfo(item.id)}>
+										{item.title}
+									</Link>
+								}
 							/>
 							{item.content}
 						</List.Item>
@@ -61,4 +66,10 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, null)(ArticleList)
+const mapDispatchToProps = (dispatch) => ({
+	getDetailInfo(id) {
+		dispatch(detailActionCreators.getDetailData(id))
+	}
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleList)

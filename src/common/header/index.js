@@ -9,10 +9,11 @@ import {
 	HeaderTitle
 } from './style'
 
+
 const { SubMenu } = Menu
 
 class Header extends PureComponent {
-
+	//列表递归获取
 	getMenuNodes = (MenuList) => {
     return MenuList.map(item => {
       if (!item.children) {
@@ -40,8 +41,9 @@ class Header extends PureComponent {
     })
 	}
 
-	clickMenu = (e) => {
-    const { history, clickTag } = this.props
+	//判断主目录还是子目录并各自添加点击方法
+  handleClick = e => {
+		const { history, clickTag } = this.props
 		if(e.keyPath.length === 1) {
 			history.push(e.key)
 		}else {
@@ -49,7 +51,7 @@ class Header extends PureComponent {
 			history.push(e.key)
 			clickTag(tag)
 		}
-	}
+  };
 	
 	render() {
 		const { menuList } = this.props
@@ -64,8 +66,8 @@ class Header extends PureComponent {
 						</Link>
 					</Col>
 					<Col xs={0} sm={0} md={14} lg={8} xl={8}>
-						<Menu selectedKeys={[pathname]} mode="horizontal" onClick={this.clickMenu} >
-						{this.getMenuNodes(menuList)}
+						<Menu onClick={this.handleClick} selectedKeys={[pathname]} mode="horizontal">
+							{this.getMenuNodes(menuList)}
 						</Menu>
 					</Col>
 				</Row>
