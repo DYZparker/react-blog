@@ -9,3 +9,13 @@ export function getDetailApi(id) {
     }
   })
 }
+
+export function addArticleApi(data) {
+  return request({
+    url: '/article/add',
+    method: 'post',
+    data: {
+      data
+    }
+  })
+}

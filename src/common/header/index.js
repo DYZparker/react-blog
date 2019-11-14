@@ -60,9 +60,9 @@ class Header extends PureComponent {
 			<HeaderWrapper>
 			{console.log('header')}
 				<Row type="flex" justify="center">
-					<Col xs={24} sm={24} md={10} lg={15} xl={10}>
+					<Col xs={24} sm={24} md={10} lg={15} xl={12}>
 						<Link to='/'>
-							<HeaderTitle>云中的博客</HeaderTitle>
+							<HeaderTitle><img src='http://122.51.57.99:7777/image/logo.png' alt='logo' /></HeaderTitle>
 						</Link>
 					</Col>
 					<Col xs={0} sm={0} md={14} lg={8} xl={8}>

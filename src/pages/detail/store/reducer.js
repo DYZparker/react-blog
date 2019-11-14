@@ -3,7 +3,6 @@ import { fromJS } from 'immutable';
 
 const defaultState = fromJS({
   article: {
-    id: '',
     date: '',
     tags: [],
     img: '',

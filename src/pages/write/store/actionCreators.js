@@ -1,19 +1,19 @@
-import * as constants from './constants';
-import { fromJS } from 'immutable';
-// import axios from 'axios';
+import * as constants from './constants'
+import { fromJS } from 'immutable'
+import { addArticleApi } from '../../../api/article'
 
-// const changeList = (data) => ({
-//     type: constants.CHANGE_LIST,
-//     data: fromJS(data),
-//     totalPage: Math.ceil(data.length /10)
+// const changeHeaderData = (result) => ({
+// 	type: constants.CHANGE_HEADER_DATA,
+// 	menuList: fromJS(result)
 // })
 
-export const changeToggle = (toggle) => ({
-    type: constants.CHANGE_TOGGLE,
-    toggle
-});
-
-export const changeShow = (list) => ({
-    type: constants.CHANGE_SHOW,
-    list: fromJS(list)
-});
+export const addArticleData = (data) => {
+  return (dispatch) => {
+    addArticleApi(data).then((res) => {
+      const result = res.data
+      console.log(res)
+    //   dispatch(changeHeaderData(result))
+    })
+  }
+//   addArticleApi()
+}

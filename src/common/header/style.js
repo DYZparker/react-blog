@@ -10,9 +10,10 @@ export const HeaderWrapper = styled.div`
   box-shadow: 0 1px 3px rgba(26,26,26,.1);
 `
 
-export const HeaderTitle = styled.span`
-  color: #696969 ;
-  font-size: 1.6rem;
-  font-weight: bold;
-  line-height: 3.3rem;
+export const HeaderTitle = styled.div`
+  display: inline-block;
+  height: 3.3rem;
+  img {
+    height: 100%;
+  }
 `

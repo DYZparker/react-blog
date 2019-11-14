@@ -23,3 +23,14 @@ export function getTagArtListApi(tag) {
     }
   })
 }
+
+export function changeTagArtListApi(page, tag) {
+  return request({
+    url: '/common/page',
+    method: 'post',
+    data: {
+      page,
+      tag
+    }
+  })
+}

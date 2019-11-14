@@ -1,1 +1,3 @@
 export const CHANGE_HOME_DATA = 'home/CHANGE_HOME_DATA'
+export const CHANGE_PAGE_DATA = 'home/CHANGE_PAGE_DATA'
+export const CHANGE_ART_LIST_DATA = 'home/CHANGE_ART_LIST_DATA'

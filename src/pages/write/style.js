@@ -5,7 +5,7 @@ export const WriteWrapper = styled.div`
   border-radius: .3rem;
   box-shadow: 0 1px 3px rgba(26,26,26,.1);
   padding: 1rem;
-  overflow: hidden;
+  /* overflow: hidden; */
 `
 
 export const ArticleArea = styled.div`

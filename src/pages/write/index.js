@@ -4,10 +4,12 @@ import { Form, Input, Button, Checkbox } from 'antd'
 import { WriteWrapper, ArticleArea } from './style'
 import BraftEditor from 'braft-editor'
 import 'braft-editor/dist/index.css'
+import { actionCreators } from './store'
 
 class Write extends PureComponent {
   state = {
-    editorState: null
+    editorState: null,
+    // art: 'null'
   }
 
 // async componentDidMount () {
@@ -31,11 +33,14 @@ class Write extends PureComponent {
   }
 
   handleSubmit = e => {
+    const { SubmitArticle } = this.props
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       values.content = this.state.editorState.toHTML()
       if (!err) {
-        console.log('Received values of form: ', values);
+        console.log('Received values of form: ', values)
+        // this.setState({'art': values.content})
+        SubmitArticle(values)
       }
     });
   }
@@ -52,7 +57,7 @@ class Write extends PureComponent {
 
     return (
       <WriteWrapper>
-      <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit}>
           <Form.Item>
             {getFieldDecorator('title', {
               rules: [{ required: true, message: 'Please input your title' }],
@@ -83,7 +88,8 @@ class Write extends PureComponent {
             提交
           </Button>
         </Form>
-        </WriteWrapper>
+            {/* <div dangerouslySetInnerHTML={{__html: this.state.art}}></div> */}
+      </WriteWrapper>
     )
   }
 }
@@ -94,22 +100,11 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-      // handleSubmit(e){
-      //   e.preventDefault();
-      //   this.props.form.validateFields((err, values) => {
-      //     values.content = this.state.editorState.toHTML()
-      //     if (!err) {
-      //       console.log('Received values of form: ', values);
-      //     }
-      //   });
-      // },
-      // handleToggle (toggle) {
-      //     dispatch(actionCreators.changeToggle(!toggle))
-      // }
-    }
-}
+const mapDispatchToProps = (dispatch) => ({
+	SubmitArticle(data) {
+		dispatch(actionCreators.addArticleData(data))
+	}
+})
 
 const WrappedNormalWriteForm = Form.create({ name: 'normal_write' })(Write)
 export default connect(mapStateToProps, mapDispatchToProps)(WrappedNormalWriteForm)
