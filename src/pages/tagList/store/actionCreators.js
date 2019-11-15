@@ -22,7 +22,6 @@ export const getTagArtListData = (tag) => {
   return (dispatch) => {
     getTagArtListApi(tag).then((res) => {
         const result = res.data
-        console.log(result)
         dispatch(initTagArtListData(result))
       })
   }

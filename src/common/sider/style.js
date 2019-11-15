@@ -41,3 +41,12 @@ export const TagsWrapper = styled.div`
   overflow: hidden;
 `
 
+export const NavBarWrapper = styled.div`
+  border-radius: .3rem;
+  background-color: #fff;
+  margin-top: 1.7rem;
+  box-shadow: 0 1px 3px rgba(26,26,26,.1);
+  padding: .5rem;
+  overflow: hidden;
+`
+

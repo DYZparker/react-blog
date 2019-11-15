@@ -4,8 +4,6 @@ import TabBar from './components/TabBar'
 import ArticleList from './components/ArticleList'
 import { connect } from 'react-redux'
 import { actionCreators } from './store'
-import { 
-} from './style'
 
 class Main extends PureComponent {
   render() {

@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { Icon, List } from 'antd'
 import moment from 'moment'
-import { TagListWrapper } from './style'
+import { TagListWrapper, LinkTitle, TagListContent } from './style'
 import { actionCreators } from './store'
-import { actionCreators as detailActionCreators} from '../detail/store'
+import marked from 'marked'
 
 const IconText = ({ type, text }) => (
   <span>
@@ -17,9 +16,8 @@ const IconText = ({ type, text }) => (
 class TagList extends PureComponent {
 
 	render() {
-    const { pages, onChangePage, tagArtList, getDetailInfo } = this.props
+    const { pages, onChangePage, tagArtList } = this.props
 		const tag = this.props.match.params.tag
-		console.log(pages.total)
 		return (
 			<TagListWrapper>
 			{console.log('articlelist')}
@@ -50,12 +48,12 @@ class TagList extends PureComponent {
 						>
 							<List.Item.Meta
 								title={
-									<Link to={'/detail/' + item.id} style={{ fontSize: 30 }} onClick={() => getDetailInfo(item.id)}>
+									<LinkTitle to={'/detail/' + item._id}>
 										{item.title}
-									</Link>
+									</LinkTitle>
 								}
 							/>
-							<div dangerouslySetInnerHTML={{__html: item.content}}></div>
+							<TagListContent dangerouslySetInnerHTML={{__html: marked(item.content)}} />
 						</List.Item>
 					)}
 				/>
@@ -80,9 +78,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
 	getTagArtListInfo(tag) {
 		dispatch(actionCreators.getTagArtListData(tag))
-	},
-	getDetailInfo(id) {
-		dispatch(detailActionCreators.getDetailData(id))
 	},
 	onChangePage(page, tag) {
 		dispatch(actionCreators.changePage(page, tag))
