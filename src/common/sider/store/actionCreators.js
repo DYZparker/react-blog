@@ -4,7 +4,6 @@ import { getSiderApi } from '../../../api/common'
 
 const changeSiderrData = (result) => ({
 	type: constants.CHANGE_SIDER_DATA,
-	account: fromJS(result.account),
 	tagList: fromJS(result.tagList)
 })
 

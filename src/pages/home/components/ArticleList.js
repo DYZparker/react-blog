@@ -16,6 +16,8 @@ const IconText = ({ type, text }) => (
 class ArticleList extends PureComponent {
 	render() {
 		const { pages, artList, onChangePage} = this.props
+		const Psges = pages.toJS()
+		const ArtList = artList.toJS()
 		return (
 			<ListWrapper>
 			{console.log('articlelist')}
@@ -24,11 +26,11 @@ class ArticleList extends PureComponent {
 					size="large"
 					pagination={{
 						onChange: page => onChangePage(page),
-						current: pages.current,
-						total: pages.total,
-						pageSize: pages.pageSize,
+						current: Psges.current,
+						total: Psges.total,
+						pageSize: Psges.pageSize,
 					}}
-					dataSource={artList}
+					dataSource={ArtList}
 					renderItem={item => (
 						<List.Item
 							key={item.title}
@@ -65,15 +67,12 @@ class ArticleList extends PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    pages: state.getIn(['home', 'pages']).toJS(),
-    artList: state.getIn(['home', 'artList']).toJS()
+    pages: state.getIn(['home', 'pages']),
+    artList: state.getIn(['home', 'artList'])
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-	// getDetailInfo(id) {
-		// dispatch(detailActionCreators.getDetailData(id))
-	// },
 	onChangePage(page) {
 		dispatch(actionCreators.changePage(page))
 	}

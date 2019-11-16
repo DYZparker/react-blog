@@ -7,12 +7,13 @@ import { actionCreators as tagArtListActionCreators } from '../../../pages/tagLi
 
 class Tags extends PureComponent {
 	render() {
-    const { tagList, clickTag } = this.props
+		const { tagList, clickTag } = this.props
+		const TagList = tagList.toJS()
 		return (
 			<TagsWrapper>
       {console.log('tags')}
 				<Divider>标签分类</Divider>
-				{tagList.map((item) => {
+				{TagList.map((item) => {
 					return (
 						<Tag style={{ marginBottom: 6 }} color={item.color} key={item.title}>
 								<Link to={'/taglist/' + item.title} onClick={() => clickTag(item.title)}>
@@ -29,7 +30,7 @@ class Tags extends PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    tagList: state.getIn(['sider', 'tagList']).toJS()
+    tagList: state.getIn(['sider', 'tagList'])
   }
 }
 

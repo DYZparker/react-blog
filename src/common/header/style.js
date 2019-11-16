@@ -17,3 +17,9 @@ export const HeaderTitle = styled.div`
     height: 100%;
   }
 `
+
+export const LoginTitle = styled.div`
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 1rem 0;
+`

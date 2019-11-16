@@ -16,7 +16,9 @@ const IconText = ({ type, text }) => (
 class TagList extends PureComponent {
 
 	render() {
-    const { pages, onChangePage, tagArtList } = this.props
+		const { pages, onChangePage, tagArtList } = this.props
+		const Pages = pages.toJS()
+		const TagArtList = tagArtList.toJS()
 		const tag = this.props.match.params.tag
 		return (
 			<TagListWrapper>
@@ -26,11 +28,11 @@ class TagList extends PureComponent {
 					size="large"
 					pagination={{
 						onChange: page => onChangePage(page, tag),
-						current: pages.current,
-						total: pages.total,
-						pageSize: pages.pageSize,
+						current: Pages.current,
+						total: Pages.total,
+						pageSize: Pages.pageSize,
 					}}
-					dataSource={tagArtList}
+					dataSource={TagArtList}
 					renderItem={item => (
 						<List.Item
 							key={item.title}
@@ -70,8 +72,8 @@ class TagList extends PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    pages: state.getIn(['tagList', 'pages']).toJS(),
-    tagArtList: state.getIn(['tagList', 'tagArtList']).toJS()
+    pages: state.getIn(['tagList', 'pages']),
+    tagArtList: state.getIn(['tagList', 'tagArtList'])
   }
 }
 

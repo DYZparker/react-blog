@@ -7,11 +7,12 @@ class Topic extends PureComponent {
 
 	render() {
 		const { topicList } = this.props
+		const TopicList = topicList.toJS()
 		return (
 			<TopicWrapper>
 			{console.log('topic')}
 				<Carousel effect="fade" autoplay>
-					{topicList.map((item) => {
+					{TopicList.map((item) => {
 						return(<img src={item.src} alt={item.alt} key={item.alt} />)
 					})}
 				</Carousel>
@@ -22,7 +23,7 @@ class Topic extends PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    topicList: state.getIn(['home', 'topicList']).toJS()
+    topicList: state.getIn(['home', 'topicList'])
   }
 }
 

@@ -35,6 +35,7 @@ class Write extends PureComponent {
 
   render () {
     const { tagOptions } = this.props
+    const TagOptions = tagOptions.toJS()
     const { value } = this.state
     const { getFieldDecorator } = this.props.form
     console.log('write')
@@ -59,7 +60,7 @@ class Write extends PureComponent {
               valuePropName: 'checked',
               initialValue: true,
             })(
-              <Checkbox.Group options={tagOptions} defaultValue={[]} onChange={this.onChange} />
+              <Checkbox.Group options={TagOptions} defaultValue={[]} onChange={this.onChange} />
             )}
           </Form.Item>
           <Button type="primary" htmlType="submit">
@@ -73,7 +74,7 @@ class Write extends PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    tagOptions: state.getIn(['write', 'tagOptions']).toJS()
+    tagOptions: state.getIn(['write', 'tagOptions'])
   }
 }
 

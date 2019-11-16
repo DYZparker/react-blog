@@ -16,12 +16,13 @@ function callback(key) {
 
 class TabBar extends PureComponent {
 	render() {
-    const { tabList, getDetailInfo } = this.props
+		const { tabList, getDetailInfo } = this.props
+		const TabList = tabList.toJS()
 		return (
 			<TabBarWrapper>
       {console.log('tabbar')}
 				<Tabs defaultActiveKey="1" onChange={callback} >
-					{tabList.map((item) => {
+					{TabList.map((item) => {
 						return (
 							<WrapperTabPane tab={item.title} key={item.id}>
 								<WrapperCard>
@@ -61,7 +62,7 @@ class TabBar extends PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    tabList: state.getIn(['home', 'tabList']).toJS()
+    tabList: state.getIn(['home', 'tabList'])
   }
 }
 

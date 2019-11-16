@@ -1,5 +1,5 @@
-import * as constants from './constants'
-import { fromJS } from 'immutable'
+// import * as constants from './constants'
+// import { fromJS } from 'immutable'
 import { addArticleApi } from '../../../api/article'
 
 // const changeHeaderData = (result) => ({
@@ -10,7 +10,7 @@ import { addArticleApi } from '../../../api/article'
 export const addArticleData = (data) => {
   return (dispatch) => {
     addArticleApi(data).then((res) => {
-      const result = res.data
+      // const result = res.data
       console.log(res)
     //   dispatch(changeHeaderData(result))
     })
