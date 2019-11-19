@@ -5,6 +5,9 @@ const defaultState = fromJS({
   loginVisible: false,
   logoutVisible: false,
   showRegister: false,
+  token: '',
+  admin: '',
+  username: '',
   login: false,
   menuList: [
     {
@@ -83,6 +86,16 @@ export default (state = defaultState, action) => {
       return state.setIn(['menuList', 4, 'title'], '退出');
     case constants.CHANGE_LOGOUT_WORD:
       return state.setIn(['menuList', 4, 'title'], '登录');
+    case constants.CHANGE_LOGIN_DATA:
+      return state.merge({
+        admin: action.admin,
+        username: action.username
+      });
+    case constants.REMOVE_LOGIN_DATA:
+      return state.merge({
+        admin: '',
+        username: ''
+      });
     default:
       return state;
   }

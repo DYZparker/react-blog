@@ -3,7 +3,6 @@ import { Row, Col } from 'antd'
 import { Link } from 'react-router-dom'
 import { HeaderWrapper, HeaderTitle } from './style'
 import MenuList from './components/MenuList'
-import Login from './components/Login'
 import logoImg from '../../statics/image/logo.png'
 
 class Header extends PureComponent {
@@ -21,7 +20,6 @@ class Header extends PureComponent {
 						<MenuList />
 					</Col>
 				</Row>
-				<Login />
 			</HeaderWrapper>
 		)
 	}

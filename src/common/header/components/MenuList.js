@@ -4,6 +4,9 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { actionCreators } from '../store'
 import { actionCreators as tagArtListActionCreators } from '../../../pages/tagList/store'
+import Login from './Login'
+import { checkUserApi } from '../../../api/users'
+import { getUser, removeUser } from '../../../utils/auth'
 
 const { SubMenu } = Menu
 
@@ -39,10 +42,12 @@ class MenuList extends PureComponent {
 
   //判断主目录还是子目录并各自添加点击方法
   handleClick = e => {
-    const { history, clickTag, showLogin, showLogout, login } = this.props
+    const { history, clickTag, showLogin, showLogout, login, admin } = this.props
     if(e.keyPath.length === 1) {
       if(e.keyPath[0] === '/login') {
         return login ? showLogout() : showLogin()
+      }else if(e.keyPath[0] === '/write'){
+        return admin ? history.push(e.key) : message.warning('只有管理员账号才能写文章！')
       }else {
         history.push(e.key)
       }
@@ -55,8 +60,10 @@ class MenuList extends PureComponent {
   }
 
   handleOk = () => {
-    const { login, toggleLogin, closeLogout } = this.props
+    const { login, toggleLogin, closeLogout, deleteLoginData } = this.props
     toggleLogin(login)
+    removeUser()
+    deleteLoginData()
     closeLogout()
     message.success('您已退出登录!')
   }
@@ -68,9 +75,10 @@ class MenuList extends PureComponent {
     return (
       <div>
         <Menu onClick={this.handleClick} selectedKeys={[pathname]} mode="horizontal">
-          {console.log('Menu')}
+          {console.log('MenuList')}
           {this.getMenuNodes(MenuList)}
         </Menu>
+				<Login />
         <Modal
           title="退出登录"
           visible={logoutVisible}
@@ -84,25 +92,38 @@ class MenuList extends PureComponent {
       </div>
     )
   }
+
+  componentDidMount() {
+    const user = getUser()
+    const { setLoginData, toggleLogin, login, deleteLoginData } = this.props
+    if(user.username) {
+      checkUserApi().then(res => {
+        if(res.data.code === 500) {
+          deleteLoginData()
+          removeUser()
+          return message.warning(res.data.data.message)
+        }
+        setLoginData(user)
+        toggleLogin(login)
+      })
+    }
+  }
 }
 
 const mapStateToProps = (state) => {
   return {
     menuList: state.getIn(['header', 'menuList']),
     login: state.getIn(['header', 'login']),
+    admin: state.getIn(['header', 'admin']),
     logoutVisible: state.getIn(['header', 'logoutVisible'])
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-	// getHeaderInfo() {
-	// 	dispatch(actionCreators.getHeaderData())
-	// },
 	clickTag(tag) {
 		dispatch(tagArtListActionCreators.getTagArtListData(tag))
 	},
 	showLogin() {
-    console.log('login')
 		dispatch(actionCreators.changeLoginVisible(true))
 	},
 	showLogout() {
@@ -114,10 +135,18 @@ const mapDispatchToProps = (dispatch) => ({
 	toggleLogin(login) {
     const toggle = !login
     dispatch(actionCreators.changeLogin(toggle))
-    if(login) {
+    if(!login) {
+      dispatch(actionCreators.changeLoginWord())
+    }else {
       dispatch(actionCreators.changeLogoutWord())
     }
-	}
+  },
+  setLoginData(user) {
+    dispatch(actionCreators.changeLoginData(user))
+  },
+  deleteLoginData() {
+    dispatch(actionCreators.removeLoginData())
+  }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MenuList))

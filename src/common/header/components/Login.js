@@ -3,6 +3,8 @@ import { Modal, Form, Icon, Input, Button, message } from 'antd'
 import { connect } from 'react-redux'
 import { actionCreators } from '../store'
 import { LoginTitle } from '../style'
+import { loginApi, registerApi } from '../../../api/users'
+import { setToken, setUser } from '../../../utils/auth'
 
 class Login extends PureComponent {
   state = {
@@ -10,44 +12,36 @@ class Login extends PureComponent {
     autoCompleteResult: [],
   }
 
-  // handleOk = () => {
-  //   const { closeLogin, showRegister } = this.props
-  //   if(showRegister) {
-  //     return console.log('注册')
-  //   }else {
-  //     this.setState({
-  //       confirmLoading: true,
-  //     });
-  //     setTimeout(() => {
-  //       this.setState({
-  //         confirmLoading: false,
-  //       })
-  //       closeLogin()
-  //       this.handleSubmit()
-  //     }, 2000);
-  //   }
-  // };
-
   handleSubmit = e => {
-    const { closeLogin, showRegister, login, toggleLogin } = this.props
+    const { closeLogin, showRegister, login, toggleLogin, setLoginData } = this.props
     e.preventDefault();
     if(showRegister) {
       this.props.form.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of register: ', values);
-          message.success('注册成功！请登录')
-          this.toggleRegister(showRegister)
+          registerApi(values).then(res => {
+            if(res.data.code === 200) {
+              message.success(res.data.data.message)
+              this.toggleRegister(showRegister)
+            }
+          })
         }
       })
     }else{
       this.props.form.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of login: ', values);
-          setTimeout(() => {
-            message.success('登录成功！')
-            toggleLogin(login)
-            closeLogin()
-          }, 2000);
+          loginApi(values).then(res => {
+            const data = res.data.data
+            if(res.data.code === 200) {
+              message.success(data.message)
+              toggleLogin(login)
+              setLoginData(data.user)
+              setToken(data.token)
+              setUser(data.user)
+              closeLogin()
+            }else{
+              message.error(data.message)
+            }
+          })
         }
       })
     }
@@ -58,7 +52,7 @@ class Login extends PureComponent {
     this.props.form.resetFields()
     toggleShow(show)
   }
-  //=====================
+
   handleConfirmBlur = e => {
     const { value } = e.target;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
@@ -95,6 +89,7 @@ class Login extends PureComponent {
           footer={null}
           destroyOnClose={true}
         >
+			    {console.log('login')}
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
               {getFieldDecorator('username', {
@@ -181,8 +176,13 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(actionCreators.changeLogin(toggle))
     if(!login) {
       dispatch(actionCreators.changeLoginWord())
+    }else {
+      dispatch(actionCreators.changeLogoutWord())
     }
-	}
+  },
+  setLoginData(user) {
+    dispatch(actionCreators.changeLoginData(user))
+  }
 })
 
 const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(Login)

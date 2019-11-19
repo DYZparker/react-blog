@@ -1,17 +1,37 @@
 import * as constants from './constants'
 import { fromJS } from 'immutable'
-// import { getHeaderApi } from '../../../api/common'
 
-// const changeHeaderData = (result) => ({
-// 	type: constants.CHANGE_HEADER_DATA,
-// 	menuList: fromJS(result)
+export const changeLoginData = (user) => ({
+	type: constants.CHANGE_LOGIN_DATA,
+  admin: fromJS(user.admin),
+  username: fromJS(user.username)
+})
+
+export const removeLoginData = () => ({
+	type: constants.REMOVE_LOGIN_DATA
+})
+
+// const changeRegisterData = (result) => ({
+// 	type: constants.CHANGE_REGISTER_DATA,
+//   register: fromJS(result)
 // })
 
-// export const getHeaderData = () => {
+// export const checkUserInfo = () => {
 //   return (dispatch) => {
-//     getHeaderApi().then((res) => {
+//     loginApi(user).then((res) => {
+//       const result = res.data || res
+//       if(res.status === 204)
+//       console.log(result)
+//       dispatch(changeLoginData(result))
+//     })
+//   }
+// }
+
+// export const registerData = (user) => {
+//   return (dispatch) => {
+//     registerApi(user).then((res) => {
 //       const result = res.data
-//       dispatch(changeHeaderData(result))
+//       dispatch(changeRegisterData(result))
 //     })
 //   }
 // }
