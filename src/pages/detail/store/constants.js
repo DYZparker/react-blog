@@ -1,1 +1,2 @@
 export const CHANGE_DETAIL_DATA = 'detail/CHANGE_DETAIL_DATA'
+export const CHANGE_COMMENTS = 'detail/CHANGE_COMMENTS'

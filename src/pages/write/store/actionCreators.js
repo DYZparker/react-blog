@@ -11,7 +11,6 @@ export const addArticleData = (data) => {
   return (dispatch) => {
     addArticleApi(data).then((res) => {
       // const result = res.data
-      console.log(res)
     //   dispatch(changeHeaderData(result))
     })
   }

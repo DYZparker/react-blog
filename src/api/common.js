@@ -1,29 +1,15 @@
 import request from '../utils/request'
 
-export function getSiderApi() {
+export function getCommonInfoApi() {
   return request({
-    url: '/common/sider',
+    url: '/common/info',
     method: 'get'
   })
 }
 
-export function getTagArtListApi(tag) {
+export function getSideInfoApi() {
   return request({
-    url: '/common/tagartlist',
-    method: 'post',
-    data: {
-      tag
-    }
-  })
-}
-
-export function changeTagArtListApi(page, tag) {
-  return request({
-    url: '/common/page',
-    method: 'post',
-    data: {
-      page,
-      tag
-    }
+    url: '/side/info',
+    method: 'get'
   })
 }

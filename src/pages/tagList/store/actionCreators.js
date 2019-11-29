@@ -1,16 +1,21 @@
 import * as constants from './constants'
 import { fromJS } from 'immutable'
-import { getTagArtListApi, changeTagArtListApi } from '../../../api/common'
+import { getArticleListApi } from '../../../api/article'
 
-const initTagArtListData = (result) => ({
-	type: constants.INIT_TAG_ART_LIST,
-	tagArtList: fromJS(result.tagArtList),
-  pages: fromJS(result.pages)
-})
+// const initTagArtListData = (result) => ({
+// 	type: constants.INIT_TAG_ART_LIST,
+// 	articleList: fromJS(result.articleList),
+//   total: fromJS(result.total)
+// })
 
 const changeTagArtListData = (result) => ({
   type: constants.CHANGE_TAG_ART_LIST,
-	tagArtList: fromJS(result)
+	articleList: fromJS(result.articleList)
+})
+
+const changeTotalData = (result) => ({
+  type: constants.CHANGE_TOTAL_DATA,
+  total: fromJS(result.total)
 })
 
 const changePageData = (page) => ({
@@ -18,21 +23,23 @@ const changePageData = (page) => ({
   page: fromJS(page)
 })
 
-export const getTagArtListData = (tag) => {
+export const getTagArtListData = (page, tag) => {
   return (dispatch) => {
-    getTagArtListApi(tag).then((res) => {
-        const result = res.data
-        dispatch(initTagArtListData(result))
+    getArticleListApi(page, tag).then((res) => {
+        const result = res.data.data
+        dispatch(changeTagArtListData(result))
+        dispatch(changeTotalData(result))
+        dispatch(changePageData(page*1))
       })
   }
 }
 
-export const changePage = (page, tag) => {
-  return (dispatch) => {
-    changeTagArtListApi(page, tag).then((res) => {
-      const result = res.data
-      dispatch(changePageData(page))
-      dispatch(changeTagArtListData(result))
-    })
-  }
-}
+// export const changePage = (page, tag) => {
+//   return (dispatch) => {
+//     changeTagArtListApi(page, tag).then((res) => {
+//       const result = res.data
+//       dispatch(changePageData(page))
+//       dispatch(changeTagArtListData(result))
+//     })
+//   }
+// }

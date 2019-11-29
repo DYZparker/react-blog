@@ -1,1 +1,1 @@
-export const CHANGE_SIDER_DATA = 'sider/CHANGE_SIDER_DATA'
+export const CHANGE_SIDE_DATA = 'sider/CHANGE_SIDE_DATA'

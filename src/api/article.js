@@ -1,8 +1,19 @@
 import request from '../utils/request'
 
-export function getDetailApi(id) {
+export function getArticleListApi(page, tag) {
   return request({
-    url: '/article',
+    url: '/article/list',
+    method: 'post',
+    data: {
+      page,
+      tag
+    }
+  })
+}
+
+export function getArticleApi(id) {
+  return request({
+    url: '/article/id',
     method: 'post',
     data: {
       id
@@ -19,3 +30,26 @@ export function addArticleApi(data) {
     }
   })
 }
+
+export function getCommentListApi(id, data) {
+  return request({
+    url: '/article/comment/list',
+    method: 'post',
+    data: {
+      id,
+      data
+    }
+  })
+}
+
+export function addCommentApi(id, data) {
+  return request({
+    url: '/article/comment/add',
+    method: 'post',
+    data: {
+      id,
+      data
+    }
+  })
+}
+

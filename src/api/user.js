@@ -2,7 +2,7 @@ import request from '../utils/request'
 
 export function loginApi(user) {
   return request({
-    url: '/users/login',
+    url: '/user/login',
     method: 'post',
     data: {
       user
@@ -12,7 +12,7 @@ export function loginApi(user) {
 
 export function registerApi(user) {
   return request({
-    url: '/users/register',
+    url: '/user/add',
     method: 'post',
     data: {
       user
@@ -22,7 +22,7 @@ export function registerApi(user) {
 
 export function checkUserApi() {
   return request({
-    url: '/users/info',
+    url: '/user/info',
     method: 'get'
   })
 }

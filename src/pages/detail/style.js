@@ -24,6 +24,7 @@ export const ArtIcon = styled.div`
 `
 
 export const ArtContent = styled.div`
+  margin: 3rem 0;
   line-height: 2;
 
   p,

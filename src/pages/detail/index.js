@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Icon, Divider } from 'antd'
+import { Icon } from 'antd'
 import moment from 'moment'
 import { DetailWrapper, ArtTitle, ArtIcon, ArtContent } from './style'
 import { actionCreators } from './store'
 import marked from '../../utils/marked'
 import 'highlight.js/styles/tomorrow.css'
+import ArticleComment from './components/ArticleComment'
 
 class Detail extends PureComponent {
 
@@ -26,11 +27,11 @@ class Detail extends PureComponent {
             )
           }) : ''}
         </ArtIcon>
-        <Divider />
         <ArtContent
           ref={this.$scrollPreview}
           dangerouslySetInnerHTML={{ __html: marked(art.content || '正在加载中...') }}
         />
+        <ArticleComment />
       </DetailWrapper>
     )
   }

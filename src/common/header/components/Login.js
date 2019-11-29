@@ -3,7 +3,7 @@ import { Modal, Form, Icon, Input, Button, message } from 'antd'
 import { connect } from 'react-redux'
 import { actionCreators } from '../store'
 import { LoginTitle } from '../style'
-import { loginApi, registerApi } from '../../../api/users'
+import { loginApi, registerApi } from '../../../api/user'
 import { setToken, setUser } from '../../../utils/auth'
 
 class Login extends PureComponent {

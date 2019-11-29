@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { actionCreators } from '../store'
 import { actionCreators as tagArtListActionCreators } from '../../../pages/tagList/store'
 import Login from './Login'
-import { checkUserApi } from '../../../api/users'
+import { checkUserApi } from '../../../api/user'
 import { getUser, removeUser } from '../../../utils/auth'
 
 const { SubMenu } = Menu
@@ -47,7 +47,7 @@ class MenuList extends PureComponent {
       if(e.keyPath[0] === '/login') {
         return login ? showLogout() : showLogin()
       }else if(e.keyPath[0] === '/write'){
-        return admin ? history.push(e.key) : message.warning('只有管理员账号才能写文章！')
+        return admin ? history.push(e.key) : message.warning('请用管理员账号登陆！')
       }else {
         history.push(e.key)
       }
@@ -121,7 +121,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
 	clickTag(tag) {
-		dispatch(tagArtListActionCreators.getTagArtListData(tag))
+		dispatch(tagArtListActionCreators.getTagArtListData(1, tag))
 	},
 	showLogin() {
 		dispatch(actionCreators.changeLoginVisible(true))

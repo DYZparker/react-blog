@@ -16,9 +16,9 @@ const IconText = ({ type, text }) => (
 class TagList extends PureComponent {
 
 	render() {
-		const { pages, onChangePage, tagArtList } = this.props
+		const { pages, onChangePage, articleList } = this.props
 		const Pages = pages.toJS()
-		const TagArtList = tagArtList.toJS()
+		const ArticleList = articleList.toJS()
 		const tag = this.props.match.params.tag
 		return (
 			<TagListWrapper>
@@ -32,7 +32,7 @@ class TagList extends PureComponent {
 						total: Pages.total,
 						pageSize: Pages.pageSize,
 					}}
-					dataSource={TagArtList}
+					dataSource={ArticleList}
 					renderItem={item => (
 						<List.Item
 							key={item.title}
@@ -66,23 +66,26 @@ class TagList extends PureComponent {
 	componentDidMount() {
 		const { getTagArtListInfo } = this.props
 		const tag = this.props.match.params.tag
-		getTagArtListInfo(tag)
+		getTagArtListInfo(1, tag)
 	}
 }
 
 const mapStateToProps = (state) => {
   return {
     pages: state.getIn(['tagList', 'pages']),
-    tagArtList: state.getIn(['tagList', 'tagArtList'])
+    articleList: state.getIn(['tagList', 'articleList'])
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-	getTagArtListInfo(tag) {
-		dispatch(actionCreators.getTagArtListData(tag))
+	getTagArtListInfo(page, tag) {
+		console.log(page)
+		console.log(tag)
+		dispatch(actionCreators.getTagArtListData(page, tag))
 	},
 	onChangePage(page, tag) {
-		dispatch(actionCreators.changePage(page, tag))
+		console.log(page)
+		dispatch(actionCreators.getTagArtListData(page, tag))
 	}
 })
 

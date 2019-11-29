@@ -1,12 +1,13 @@
 import * as constants from './constants'
 import { fromJS } from 'immutable'
-import { getHomeDataApi, getArtListApi } from '../../../api/home'
+import { getCommonInfoApi } from '../../../api/common'
+import { getArticleListApi } from '../../../api/article'
 
 const changeHomeData = (result) => ({
 	type: constants.CHANGE_HOME_DATA,
 	topicList: fromJS(result.topicList),
-	tabList: fromJS(result.tabList),
-  artList: fromJS(result.artList),
+	// tabList: fromJS(result.tabList),
+  articleList: fromJS(result.articleList),
   pages: fromJS(result.pages)
 })
 
@@ -17,12 +18,12 @@ const changePageData = (page) => ({
 
 const changeArtListData = (result) => ({
   type: constants.CHANGE_ART_LIST_DATA,
-  artList: fromJS(result)
+  articleList: fromJS(result.articleList)
 })
 
 export const getHomeData = () => {
   return (dispatch) => {
-    getHomeDataApi().then((res) => {
+    getCommonInfoApi().then((res) => {
       const result = res.data
       dispatch(changeHomeData(result))
     })
@@ -31,8 +32,8 @@ export const getHomeData = () => {
 
 export const changePage = (page) => {
   return (dispatch) => {
-    getArtListApi(page).then((res) => {
-      const result = res.data
+    getArticleListApi(page).then((res) => {
+      const result = res.data.data
       dispatch(changePageData(page))
       dispatch(changeArtListData(result))
     })

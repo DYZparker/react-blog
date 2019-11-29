@@ -27,14 +27,14 @@ class sider extends PureComponent {
 	}
 
 	componentDidMount() {
-    const { getSiderInfo } = this.props
-    getSiderInfo()
+    const { getSideInfo } = this.props
+    getSideInfo()
 	}
 }
 
 const mapDispatchToProps = (dispatch) => ({
-	getSiderInfo() {
-		dispatch(actionCreators.getSiderData())
+	getSideInfo() {
+		dispatch(actionCreators.getSideInfoData())
 	}
 })
 

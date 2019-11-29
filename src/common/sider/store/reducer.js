@@ -7,7 +7,7 @@ const defaultState = fromJS({
 
 export default (state = defaultState, action) => {
   switch(action.type) {
-    case constants.CHANGE_SIDER_DATA:
+    case constants.CHANGE_SIDE_DATA:
       return state.set('tagList', action.tagList);
     default:
       return state;

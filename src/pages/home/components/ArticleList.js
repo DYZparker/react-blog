@@ -15,9 +15,9 @@ const IconText = ({ type, text }) => (
 
 class ArticleList extends PureComponent {
 	render() {
-		const { pages, artList, onChangePage} = this.props
+		const { pages, articleList, onChangePage} = this.props
 		const Psges = pages.toJS()
-		const ArtList = artList.toJS()
+		const ArticleList = articleList.toJS()
 		return (
 			<ListWrapper>
 			{console.log('articlelist')}
@@ -30,7 +30,7 @@ class ArticleList extends PureComponent {
 						total: Psges.total,
 						pageSize: Psges.pageSize,
 					}}
-					dataSource={ArtList}
+					dataSource={ArticleList}
 					renderItem={item => (
 						<List.Item
 							key={item.title}
@@ -68,7 +68,7 @@ class ArticleList extends PureComponent {
 const mapStateToProps = (state) => {
   return {
     pages: state.getIn(['home', 'pages']),
-    artList: state.getIn(['home', 'artList'])
+    articleList: state.getIn(['home', 'articleList'])
   }
 }
 

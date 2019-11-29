@@ -1,17 +1,17 @@
 import * as constants from './constants'
 import { fromJS } from 'immutable'
-import { getSiderApi } from '../../../api/common'
+import { getSideInfoApi } from '../../../api/common'
 
-const changeSiderrData = (result) => ({
-	type: constants.CHANGE_SIDER_DATA,
+const changeSideData = (result) => ({
+	type: constants.CHANGE_SIDE_DATA,
 	tagList: fromJS(result.tagList)
 })
 
-export const getSiderData = () => {
+export const getSideInfoData = () => {
   return (dispatch) => {
-    getSiderApi().then((res) => {
+    getSideInfoApi().then((res) => {
       const result = res.data
-      dispatch(changeSiderrData(result))
+      dispatch(changeSideData(result))
     })
   }
 }

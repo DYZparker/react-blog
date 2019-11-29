@@ -24,7 +24,7 @@ class TabBar extends PureComponent {
 				<Tabs defaultActiveKey="1" onChange={callback} >
 					{TabList.map((item) => {
 						return (
-							<WrapperTabPane tab={item.title} key={item.id}>
+							<WrapperTabPane tab={item.title} key={item.title}>
 								<WrapperCard>
                   <Card
                     hoverable
