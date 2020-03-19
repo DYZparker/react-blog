@@ -66,7 +66,7 @@ class TagList extends PureComponent {
 	componentDidMount() {
 		const { getTagArtListInfo } = this.props
 		const tag = this.props.match.params.tag
-		getTagArtListInfo(1, tag)
+		getTagArtListInfo(tag)
 	}
 }
 
@@ -78,14 +78,11 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-	getTagArtListInfo(page, tag) {
-		console.log(page)
-		console.log(tag)
-		dispatch(actionCreators.getTagArtListData(page, tag))
+	getTagArtListInfo(tag) {
+		dispatch(actionCreators.getTagArtListData({page: 1, search:{tags: tag}}))
 	},
 	onChangePage(page, tag) {
-		console.log(page)
-		dispatch(actionCreators.getTagArtListData(page, tag))
+		dispatch(actionCreators.getTagArtListData({page, search:{tags: tag}}))
 	}
 })
 

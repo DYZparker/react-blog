@@ -63,6 +63,11 @@ const defaultState = fromJS({
         "path": "/aboutme"
     },
     {
+        "title": "管理",
+        "icon": "setting",
+        "path": "/setting"
+    },
+    {
         "title": "登录",
         "icon": "login",
         "path": "/login"
@@ -83,9 +88,9 @@ export default (state = defaultState, action) => {
     case constants.CHANGE_LOGIN:
       return state.set('login', action.login);
     case constants.CHANGE_LOGIN_WORD:
-      return state.setIn(['menuList', 4, 'title'], '退出');
+      return state.setIn(['menuList', -1, 'title'], '退出');
     case constants.CHANGE_LOGOUT_WORD:
-      return state.setIn(['menuList', 4, 'title'], '登录');
+      return state.setIn(['menuList', -1, 'title'], '登录');
     case constants.CHANGE_LOGIN_DATA:
       return state.merge({
         admin: action.admin,

@@ -30,11 +30,11 @@ export const getHomeData = () => {
   }
 }
 
-export const changePage = (page) => {
+export const changePage = (payload) => {
   return (dispatch) => {
-    getArticleListApi(page).then((res) => {
+    getArticleListApi(payload).then((res) => {
       const result = res.data.data
-      dispatch(changePageData(page))
+      dispatch(changePageData(payload.page))
       dispatch(changeArtListData(result))
     })
   }

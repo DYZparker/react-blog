@@ -74,7 +74,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
 	onChangePage(page) {
-		dispatch(actionCreators.changePage(page))
+		dispatch(actionCreators.changePage({page}))
 	}
 })
 

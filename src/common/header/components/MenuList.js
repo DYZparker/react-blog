@@ -48,6 +48,8 @@ class MenuList extends PureComponent {
         return login ? showLogout() : showLogin()
       }else if(e.keyPath[0] === '/write'){
         return admin ? history.push(e.key) : message.warning('请用管理员账号登陆！')
+      }else if(e.keyPath[0] === '/setting'){
+        return admin ? window.open('http://localhost:8080/home') : message.warning('请用管理员账号登陆！')
       }else {
         history.push(e.key)
       }
@@ -66,6 +68,22 @@ class MenuList extends PureComponent {
     deleteLoginData()
     closeLogout()
     message.success('您已退出登录!')
+  }
+
+  checkUser = () => {
+    const user = getUser()
+    const { setLoginData, toggleLogin, login, deleteLoginData } = this.props
+    if(user.username) {
+      checkUserApi().then(res => {
+        if(res.data.code === 5000) {
+          deleteLoginData()
+          removeUser()
+          return message.warning(res.data.data.message)
+        }
+        setLoginData(user)
+        toggleLogin(login)
+      })
+    }
   }
 	
   render() {
@@ -94,19 +112,11 @@ class MenuList extends PureComponent {
   }
 
   componentDidMount() {
-    const user = getUser()
-    const { setLoginData, toggleLogin, login, deleteLoginData } = this.props
-    if(user.username) {
-      checkUserApi().then(res => {
-        if(res.data.code === 500) {
-          deleteLoginData()
-          removeUser()
-          return message.warning(res.data.data.message)
-        }
-        setLoginData(user)
-        toggleLogin(login)
-      })
-    }
+    this.checkUser()
+  }
+
+  componentWillUpdate() {
+    // this.checkUser()
   }
 }
 
@@ -121,7 +131,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
 	clickTag(tag) {
-		dispatch(tagArtListActionCreators.getTagArtListData(1, tag))
+		dispatch(tagArtListActionCreators.getTagArtListData({page: 1, search:{tags: tag}}))
 	},
 	showLogin() {
 		dispatch(actionCreators.changeLoginVisible(true))

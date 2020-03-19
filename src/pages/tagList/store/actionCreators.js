@@ -23,13 +23,13 @@ const changePageData = (page) => ({
   page: fromJS(page)
 })
 
-export const getTagArtListData = (page, tag) => {
+export const getTagArtListData = (payload) => {
   return (dispatch) => {
-    getArticleListApi(page, tag).then((res) => {
+    getArticleListApi(payload).then((res) => {
         const result = res.data.data
         dispatch(changeTagArtListData(result))
         dispatch(changeTotalData(result))
-        dispatch(changePageData(page*1))
+        dispatch(changePageData(payload.page*1))
       })
   }
 }

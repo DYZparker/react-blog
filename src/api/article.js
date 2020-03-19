@@ -1,12 +1,11 @@
 import request from '../utils/request'
 
-export function getArticleListApi(page, tag) {
+export function getArticleListApi(payload) {
   return request({
     url: '/article/list',
     method: 'post',
     data: {
-      page,
-      tag
+      payload
     }
   })
 }

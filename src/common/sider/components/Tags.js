@@ -36,7 +36,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
 	clickTag(tag) {
-		dispatch(tagArtListActionCreators.getTagArtListData(tag))
+		dispatch(tagArtListActionCreators.getTagArtListData({page: 1, search:{tags: tag}}))
 	}
 })
 
