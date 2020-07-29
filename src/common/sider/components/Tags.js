@@ -1,14 +1,17 @@
 import React, { PureComponent } from 'react'
+import { Spin } from 'antd'
 import { Link } from 'react-router-dom'
 import { Tag, Icon, Divider } from 'antd'
 import { TagsWrapper } from '../style'
 import { connect } from 'react-redux'
-import { actionCreators as tagArtListActionCreators } from '../../../pages/tagList/store'
 
 class Tags extends PureComponent {
 	render() {
-		const { tagList, clickTag } = this.props
+		const { tagList } = this.props
 		const TagList = tagList.toJS()
+    if (TagList.length === 0) {
+      return <Spin />
+    }
 		return (
 			<TagsWrapper>
       {console.log('tags')}
@@ -16,7 +19,7 @@ class Tags extends PureComponent {
 				{TagList.map((item) => {
 					return (
 						<Tag style={{ marginBottom: 6 }} color={item.color} key={item.title}>
-								<Link to={'/taglist/' + item.title} onClick={() => clickTag(item.title)}>
+								<Link to={'/taglist/' + item.title} >
 									<Icon type="pushpin" />
 									{item.title}
 								</Link>
@@ -34,10 +37,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-	clickTag(tag) {
-		dispatch(tagArtListActionCreators.getTagArtListData({page: 1, search:{tags: tag}}))
-	}
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Tags)
+export default connect(mapStateToProps, null)(Tags)

@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, Fragment} from 'react';
 import {withRouter} from 'react-router-dom'
 
 //解决react-router-dom页面跳转后不在顶部
@@ -10,9 +10,8 @@ class ScrollToTop extends PureComponent {
   }
  
   render() {
-		console.log('scrollToTop')
     return (
-			<div></div>
+			<Fragment></Fragment> 
     );
   }
 }

@@ -20,7 +20,7 @@ class ArticleList extends PureComponent {
 		const ArticleList = articleList.toJS()
 		return (
 			<ListWrapper>
-			{console.log('articlelist')}
+			{console.log('articlelist~')}
 				<List
 					itemLayout="vertical"
 					size="large"

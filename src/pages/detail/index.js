@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Icon } from 'antd'
+import { Icon, Spin } from 'antd'
 import moment from 'moment'
 import { DetailWrapper, ArtTitle, ArtIcon, ArtContent } from './style'
 import { actionCreators } from './store'
@@ -12,16 +12,18 @@ class Detail extends PureComponent {
 
   render() {
     const { article } = this.props
-    //因为connectProps比componentDidMount早执行，进入页面未请求article数据前赋予art为空，避免toJS()报错
-    const art = article ? article.toJS() : ''
+    const Article = article.toJS()
+    if (Article.title === '') {
+      return <Spin />
+    }
 
     return (
       <DetailWrapper>
-      {console.log('detail')}
-        <ArtTitle>{art.title}</ArtTitle>
+      {console.log('detail',Article.title)}
+        <ArtTitle>{Article.title}</ArtTitle>
         <ArtIcon>
-          <span><Icon type='calendar' style={{ marginRight: 6 }} />{moment(art.date).format('YYYY-MM-DD')}</span>
-          {art ? art.tags.map((item) => {
+          <span><Icon type='calendar' style={{ marginRight: 6 }} />{moment(Article.date).format('YYYY-MM-DD')}</span>
+          {Article ? Article.tags.map((item) => {
             return(
               <span key={item}><Icon type='tags' style={{ marginRight: 6 }} />{item}</span>
             )
@@ -29,7 +31,7 @@ class Detail extends PureComponent {
         </ArtIcon>
         <ArtContent
           ref={this.$scrollPreview}
-          dangerouslySetInnerHTML={{ __html: marked(art.content || '正在加载中...') }}
+          dangerouslySetInnerHTML={{ __html: marked(Article.content || '正在加载中...') }}
         />
         <ArticleComment />
       </DetailWrapper>

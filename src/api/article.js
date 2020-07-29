@@ -29,26 +29,3 @@ export function addArticleApi(data) {
     }
   })
 }
-
-export function getCommentListApi(id, data) {
-  return request({
-    url: '/article/comment/list',
-    method: 'post',
-    data: {
-      id,
-      data
-    }
-  })
-}
-
-export function addCommentApi(id, data) {
-  return request({
-    url: '/article/comment/add',
-    method: 'post',
-    data: {
-      id,
-      data
-    }
-  })
-}
-

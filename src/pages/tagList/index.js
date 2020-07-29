@@ -16,13 +16,13 @@ const IconText = ({ type, text }) => (
 class TagList extends PureComponent {
 
 	render() {
-		const { pages, onChangePage, articleList } = this.props
+		const { onChangePage, articleList, pages } = this.props
 		const Pages = pages.toJS()
 		const ArticleList = articleList.toJS()
 		const tag = this.props.match.params.tag
 		return (
 			<TagListWrapper>
-			{console.log('articlelist')}
+			{console.log('articlelist!!!')}
 				<List
 					itemLayout="vertical"
 					size="large"
@@ -68,6 +68,14 @@ class TagList extends PureComponent {
 		const tag = this.props.match.params.tag
 		getTagArtListInfo(tag)
 	}
+	
+  UNSAFE_componentWillReceiveProps(nextProps) {
+		const { getTagArtListInfo } = this.props
+		const tag = nextProps.match.params.tag
+		if (nextProps.location.pathname !== this.props.location.pathname) {
+			getTagArtListInfo(tag)
+		} 
+ 	}
 }
 
 const mapStateToProps = (state) => {

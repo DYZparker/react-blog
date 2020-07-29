@@ -3,7 +3,6 @@ import { Menu, Icon, Modal, message } from 'antd'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { actionCreators } from '../store'
-import { actionCreators as tagArtListActionCreators } from '../../../pages/tagList/store'
 import Login from './Login'
 import { checkUserApi } from '../../../api/user'
 import { getUser, removeUser } from '../../../utils/auth'
@@ -42,21 +41,19 @@ class MenuList extends PureComponent {
 
   //判断主目录还是子目录并各自添加点击方法
   handleClick = e => {
-    const { history, clickTag, showLogin, showLogout, login, admin } = this.props
+    const { history, showLogin, showLogout, login, admin } = this.props
     if(e.keyPath.length === 1) {
       if(e.keyPath[0] === '/login') {
         return login ? showLogout() : showLogin()
       }else if(e.keyPath[0] === '/write'){
         return admin ? history.push(e.key) : message.warning('请用管理员账号登陆！')
       }else if(e.keyPath[0] === '/setting'){
-        return admin ? window.open('http://localhost:8080/home') : message.warning('请用管理员账号登陆！')
+        window.open('http://localhost:8080/login')
       }else {
         history.push(e.key)
       }
     }else {
-      const tag = e.key.split('/').pop()
       history.push(e.key)
-      clickTag(tag)
     }
     return false
   }
@@ -92,8 +89,8 @@ class MenuList extends PureComponent {
     const pathname = this.props.location.pathname
     return (
       <div>
+        {console.log('MenuList~')}
         <Menu onClick={this.handleClick} selectedKeys={[pathname]} mode="horizontal">
-          {console.log('MenuList')}
           {this.getMenuNodes(MenuList)}
         </Menu>
 				<Login />
@@ -114,10 +111,6 @@ class MenuList extends PureComponent {
   componentDidMount() {
     this.checkUser()
   }
-
-  componentWillUpdate() {
-    // this.checkUser()
-  }
 }
 
 const mapStateToProps = (state) => {
@@ -130,9 +123,6 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-	clickTag(tag) {
-		dispatch(tagArtListActionCreators.getTagArtListData({page: 1, search:{tags: tag}}))
-	},
 	showLogin() {
 		dispatch(actionCreators.changeLoginVisible(true))
 	},
