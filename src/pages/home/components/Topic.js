@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { Carousel  } from 'antd'
 import { TopicWrapper } from '../style'
 import { connect } from 'react-redux'
 
-class Topic extends PureComponent {
+class Topic extends Component {
 
 	render() {
 		const { topicList } = this.props
@@ -19,6 +19,15 @@ class Topic extends PureComponent {
 			</TopicWrapper>
 		)
 	}
+  
+  shouldComponentUpdate(nextProps,nextState) {
+		const { topicList } = this.props
+		const TopicList = topicList.toJS()
+    if(TopicList.length > 0) {
+      return false
+    }
+    return true
+  }
 }
 
 const mapStateToProps = (state) => {

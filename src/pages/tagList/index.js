@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Icon, List } from 'antd'
+import { Icon, List, Empty } from 'antd'
 import moment from 'moment'
 import { TagListWrapper, LinkTitle, TagListContent } from './style'
 import { actionCreators } from './store'
@@ -13,54 +13,57 @@ const IconText = ({ type, text }) => (
   </span>
 );
 
-class TagList extends PureComponent {
+class TagList extends Component {
 
 	render() {
 		const { onChangePage, articleList, pages } = this.props
 		const Pages = pages.toJS()
 		const ArticleList = articleList.toJS()
 		const tag = this.props.match.params.tag
-		return (
-			<TagListWrapper>
-			{console.log('articlelist!!!')}
-				<List
-					itemLayout="vertical"
-					size="large"
-					pagination={{
-						onChange: page => onChangePage(page, tag),
-						current: Pages.current,
-						total: Pages.total,
-						pageSize: Pages.pageSize,
-					}}
-					dataSource={ArticleList}
-					renderItem={item => (
-						<List.Item
-							key={item.title}
-							actions={[
-								<IconText type="calendar" text={moment(item.date).format('YYYY-MM-DD')} key="list-vertical-calendar" />,
-								<IconText type="tags" text={item.tags.join('、')} key="list-vertical-tags" />
-							]}
-							extra={
-								<img
-									width={272}
-									alt="logo"
-									src={item.img}
-								/>
-							}
-						>
-							<List.Item.Meta
-								title={
-									<LinkTitle to={'/detail/' + item._id}>
-										{item.title}
-									</LinkTitle>
+		if ((ArticleList.length > 0) && (ArticleList.every(i => i.tags.includes(tag)))) {
+			return (
+				<TagListWrapper>
+				{console.log('articlelist!!!')}
+					<List
+						itemLayout="vertical"
+						size="large"
+						pagination={{
+							onChange: page => onChangePage(page, tag),
+							current: Pages.current,
+							total: Pages.total,
+							pageSize: Pages.pageSize,
+						}}
+						dataSource={ArticleList}
+						renderItem={item => (
+							<List.Item
+								key={item.title}
+								actions={[
+									<IconText type="calendar" text={moment(item.date).format('YYYY-MM-DD')} key="list-vertical-calendar" />,
+									<IconText type="tags" text={item.tags.join('、')} key="list-vertical-tags" />
+								]}
+								extra={
+									<img
+										width={272}
+										alt="logo"
+										src={item.img}
+									/>
 								}
-							/>
-							<TagListContent dangerouslySetInnerHTML={{__html: marked(item.content)}} />
-						</List.Item>
-					)}
-				/>
-			</TagListWrapper>
-		)
+							>
+								<List.Item.Meta
+									title={
+										<LinkTitle to={'/detail/' + item._id}>
+											{item.title}
+										</LinkTitle>
+									}
+								/>
+								<TagListContent dangerouslySetInnerHTML={{__html: marked(item.content)}} />
+							</List.Item>
+						)}
+					/>
+				</TagListWrapper>
+			)
+		}
+		return <Empty />
 	}
 
 	componentDidMount() {
@@ -76,6 +79,16 @@ class TagList extends PureComponent {
 			getTagArtListInfo(tag)
 		} 
  	}
+  
+	shouldComponentUpdate(nextProps,nextState) {
+		const { articleList } = this.props
+		const ArticleList = articleList.toJS()
+		const tag = this.props.match.params.tag
+		if((ArticleList.length > 0) && (ArticleList.every(i => i.tags.includes(tag)))) {
+			return nextProps.articleList.toJS()[0]._id !== this.props.articleList.toJS()[0]._id
+		}
+		return true
+	}
 }
 
 const mapStateToProps = (state) => {

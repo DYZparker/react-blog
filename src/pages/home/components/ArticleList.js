@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { Icon, List } from 'antd'
 import moment from 'moment'
 import { connect } from 'react-redux'
@@ -13,7 +13,7 @@ const IconText = ({ type, text }) => (
   </span>
 );
 
-class ArticleList extends PureComponent {
+class ArticleList extends Component {
 	render() {
 		const { pages, articleList, onChangePage} = this.props
 		const Psges = pages.toJS()
@@ -63,6 +63,15 @@ class ArticleList extends PureComponent {
 			</ListWrapper>
 		)
 	}
+  
+  shouldComponentUpdate(nextProps,nextState) {
+    const { articleList } = this.props
+    const ArticleList = articleList.toJS()
+    if(ArticleList.length > 0) {
+      return nextProps.articleList.toJS()[0]._id !== this.props.articleList.toJS()[0]._id
+    }
+    return true
+  }
 }
 
 const mapStateToProps = (state) => {

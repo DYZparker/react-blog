@@ -42,7 +42,7 @@ class MenuList extends PureComponent {
   //判断主目录还是子目录并各自添加点击方法
   handleClick = e => {
     const { history, showLogin, showLogout, login, admin } = this.props
-    if(e.keyPath.length === 1) {
+    // if(e.keyPath.length === 1) {
       if(e.keyPath[0] === '/login') {
         return login ? showLogout() : showLogin()
       }else if(e.keyPath[0] === '/write'){
@@ -52,9 +52,9 @@ class MenuList extends PureComponent {
       }else {
         history.push(e.key)
       }
-    }else {
-      history.push(e.key)
-    }
+    // }else {
+    //   history.push(e.key)
+    // }
     return false
   }
 

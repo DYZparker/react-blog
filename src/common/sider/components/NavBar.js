@@ -10,12 +10,12 @@ class NavBar extends PureComponent {
   render() {
     const { article } = this.props
 		const Article = article.toJS()
-		const pathname = this.props.location.pathname
-		if(pathname.startsWith('/detail/')) {
+    const pathname = this.props.location.pathname
+    if(pathname.includes(Article._id)) {
 			return (
         <Affix offsetTop={40}>
           <NavBarWrapper>
-            {console.log('NavBar', Article)}
+            {console.log('NavBar')}
             <Divider>文章目录</Divider>
             <MarkNav
               className="article-menu"
